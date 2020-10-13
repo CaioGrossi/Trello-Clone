@@ -1,6 +1,6 @@
 # Clone trello
 
-Simples clone da plataforma Trello usando React e a biblioteca React DnD
+Clone da plataforma Trello usando React e a biblioteca React DnD
 
 ## Estudado
 * React
