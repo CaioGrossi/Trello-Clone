@@ -1,8 +1,10 @@
-import React, { createContext, useReducer, useContext } from "react";
+import React, { createContext, useReducer, useContext, useEffect, PropsWithChildren } from "react";
 import { nanoid } from "nanoid";
 import findItemIndexById from "../utils/findItemIndexById";
 import moveItem from "../utils/moveItem";
 import { DragItem } from "../types/DragItem";
+import { save } from "../api/api";
+import { withData } from '../components/WithData'
 
 type Task = {
   id: string;
@@ -15,7 +17,7 @@ type List = {
   tasks: Task[];
 };
 
-type AppState = {
+export type AppState = {
   lists: List[];
   draggedItem?: DragItem | undefined;
 };
@@ -55,25 +57,6 @@ type Action =
       };
     };
 
-const appData: AppState = {
-  lists: [
-    {
-      id: "0",
-      text: "To Do",
-      tasks: [{ id: "c0", text: "Generate app scaffold" }],
-    },
-    {
-      id: "1",
-      text: "In Progress",
-      tasks: [{ id: "c2", text: "Learn Typescript" }],
-    },
-    {
-      id: "2",
-      text: "Done",
-      tasks: [{ id: "c3", text: "Begin to use static typing" }],
-    },
-  ],
-};
 
 const AppStateContext = createContext<AppStateContextProps>(
   {} as AppStateContextProps
@@ -145,12 +128,16 @@ export const useAppState = () => {
   return useContext(AppStateContext);
 };
 
-export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
-  const [state, dispatch] = useReducer(appStateReducer, appData);
+export const AppStateProvider = withData(({ children, initialState}: PropsWithChildren<{initialState: AppState}>) => {
+  const [state, dispatch] = useReducer(appStateReducer, initialState)
 
+  useEffect(() => {
+    save(state);
+  }, [state]);
+  
   return (
-    <AppStateContext.Provider value={{ state, dispatch }}>
+    <AppStateContext.Provider value={{ state, dispatch}}>
       {children}
     </AppStateContext.Provider>
-  );
-};
+  )
+})
