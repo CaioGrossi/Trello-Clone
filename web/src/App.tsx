@@ -14,7 +14,6 @@ function App() {
       {state.lists.map((list, index) => (
         <Column id={list.id} text={list.text} key={list.id} index={index} />
       ))}
-
       <AddNewItem
         toggleButtonText="+ Add Another List"
         onAdd={(text) => dispatch({ type: "ADD_LIST", payload: text })}

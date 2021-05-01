@@ -1,10 +1,16 @@
-import React, { createContext, useReducer, useContext, useEffect, PropsWithChildren } from "react";
+import React, {
+  createContext,
+  useReducer,
+  useContext,
+  useEffect,
+  PropsWithChildren,
+} from "react";
 import { nanoid } from "nanoid";
 import findItemIndexById from "../utils/findItemIndexById";
 import moveItem from "../utils/moveItem";
 import { DragItem } from "../types/DragItem";
 import { save } from "../api/api";
-import { withData } from '../components/WithData'
+import { withData } from "../components/WithData";
 
 type Task = {
   id: string;
@@ -56,7 +62,6 @@ type Action =
         targetColumn: string;
       };
     };
-
 
 const AppStateContext = createContext<AppStateContextProps>(
   {} as AppStateContextProps
@@ -128,16 +133,21 @@ export const useAppState = () => {
   return useContext(AppStateContext);
 };
 
-export const AppStateProvider = withData(({ children, initialState}: PropsWithChildren<{initialState: AppState}>) => {
-  const [state, dispatch] = useReducer(appStateReducer, initialState)
+export const AppStateProvider = withData(
+  ({
+    children,
+    initialState,
+  }: PropsWithChildren<{ initialState: AppState }>) => {
+    const [state, dispatch] = useReducer(appStateReducer, initialState);
 
-  useEffect(() => {
-    save(state);
-  }, [state]);
-  
-  return (
-    <AppStateContext.Provider value={{ state, dispatch}}>
-      {children}
-    </AppStateContext.Provider>
-  )
-})
+    useEffect(() => {
+      save(state);
+    }, [state]);
+
+    return (
+      <AppStateContext.Provider value={{ state, dispatch }}>
+        {children}
+      </AppStateContext.Provider>
+    );
+  }
+);
