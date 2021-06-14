@@ -1,7 +1,7 @@
 # Clone trello
 
 Clone da plataforma Trello usando React e a biblioteca React DnD. No projeto  foi explorado grande parte das funcionalidades do React, desde a componentização até
-implementação de um gerenciador de estados com a context API e o useReducer. Pode ser estutado tambem a integração com a biblioteca React DnD para fazer toda a parte de mover as colunas e tasks.
+implementação de um gerenciador de estados com a context API e o useReducer. Pode ser estutado tambem a integração com a biblioteca React DnD para fazer toda a parte de mover as colunas e tasks. Link para rodando em produção: https://trello-clone-lime.vercel.app/
 
 <p align="center">
   <img src="/demo/clone_trello.gif" />
