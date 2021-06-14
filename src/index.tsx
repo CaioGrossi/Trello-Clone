@@ -5,10 +5,11 @@ import App from "./App";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend as Backend } from "react-dnd-html5-backend";
 import { AppStateProvider } from "./context/AppStateContext";
+import { appData } from "./context/mock";
 
 ReactDOM.render(
   <DndProvider backend={Backend}>
-    <AppStateProvider>
+    <AppStateProvider initialState={appData}>
       <App />
     </AppStateProvider>
   </DndProvider>,

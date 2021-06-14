@@ -2,15 +2,12 @@ import React, {
   createContext,
   useReducer,
   useContext,
-  useEffect,
   PropsWithChildren,
 } from "react";
 import { nanoid } from "nanoid";
 import findItemIndexById from "../utils/findItemIndexById";
 import moveItem from "../utils/moveItem";
 import { DragItem } from "../types/DragItem";
-import { save } from "../api/api";
-import { withData } from "../components/WithData";
 
 type Task = {
   id: string;
@@ -106,12 +103,8 @@ const appStateReducer = (state: AppState, action: Action): AppState => {
     }
 
     case "MOVE_TASK": {
-      const {
-        dragIndex,
-        hoverIndex,
-        sourceColumn,
-        targetColumn,
-      } = action.payload;
+      const { dragIndex, hoverIndex, sourceColumn, targetColumn } =
+        action.payload;
 
       const sourceLaneIndex = findItemIndexById(state.lists, sourceColumn);
       const targetLaneIndex = findItemIndexById(state.lists, targetColumn);
@@ -133,21 +126,15 @@ export const useAppState = () => {
   return useContext(AppStateContext);
 };
 
-export const AppStateProvider = withData(
-  ({
-    children,
-    initialState,
-  }: PropsWithChildren<{ initialState: AppState }>) => {
-    const [state, dispatch] = useReducer(appStateReducer, initialState);
+export const AppStateProvider = ({
+  children,
+  initialState,
+}: PropsWithChildren<{ initialState: AppState }>) => {
+  const [state, dispatch] = useReducer(appStateReducer, initialState);
 
-    useEffect(() => {
-      save(state);
-    }, [state]);
-
-    return (
-      <AppStateContext.Provider value={{ state, dispatch }}>
-        {children}
-      </AppStateContext.Provider>
-    );
-  }
-);
+  return (
+    <AppStateContext.Provider value={{ state, dispatch }}>
+      {children}
+    </AppStateContext.Provider>
+  );
+};
